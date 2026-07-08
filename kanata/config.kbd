@@ -1,0 +1,45 @@
+(defsrc
+a s d f
+j k l ;
+up down left right
+f12
+)
+
+(defvar
+tap-time 200
+hold-time 150
+interval 50
+distance 120
+)
+
+(defalias
+a-mod (tap-hold $tap-time $hold-time a lctl)
+s-mod (tap-hold $tap-time $hold-time s lsft)
+d-mod (tap-hold $tap-time $hold-time d lalt)
+f-mod (tap-hold $tap-time $hold-time f lmet)
+j-mod (tap-hold $tap-time $hold-time j rmet)
+k-mod (tap-hold $tap-time $hold-time k ralt)
+l-mod (tap-hold $tap-time $hold-time l rsft)
+;-mod (tap-hold $tap-time $hold-time ; rctl)
+up-mod (tap-hold $tap-time $hold-time up (mwheel-up $interval $distance))
+down-mod (tap-hold $tap-time $hold-time down (mwheel-down $interval $distance))
+left-mod (tap-hold $tap-time $hold-time left (mwheel-left $interval $distance))
+right-mod (tap-hold $tap-time $hold-time right (mwheel-right $interval $distance))
+)
+
+(deflayer dev
+@a-mod @s-mod @d-mod @f-mod
+@j-mod @k-mod @l-mod @;-mod
+@up-mod @down-mod @left-mod @right-mod
+@toggle-disable
+)
+
+(deflayer disabled
+a s d f
+j k l ;
+up down left right
+@toggle-dev
+)
+
+(defalias toggle-disable (layer-switch disabled))
+(defalias toggle-dev (layer-switch dev))
