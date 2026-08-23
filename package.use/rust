@@ -1,0 +1,6 @@
+dev-lang/rust rust-analyzer rust-src
+# required by dev-qt/qttools-6.11.1::gentoo[widgets]
+# required by x11-misc/sddm-0.21.0_p20250502-r1::gentoo
+# required by @selected
+# required by @world (argument)
+# >=dev-qt/qtbase-6.11.1 -opengl

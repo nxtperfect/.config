@@ -1,68 +1,98 @@
 import Quickshell
 import Quickshell.Io
 import QtQuick
-import QtQuick.Effects
+import QtQuick.Layouts
+//import QtQuick.Effects
 import "root:/config"
-import "root:/components/dashboard"
 
 Item {
+    id: root
     width: parent.width
     height: Config.top.height + (Config.bar.radius * 2) + Config.bar.margin
 
-    RectangularShadow {
-        width: parent.width
-        height: parent.height
-        anchors.centerIn: parent
-        blur: 10
-        radius: 32
-    }
+    // RectangularShadow {
+    //     width: parent.width
+    //     height: parent.height
+    //     anchors.centerIn: parent
+    //     blur: 0
+    //     radius: Config.bar.radius
+    //     offset.x: Config.bar.shadowOffsetX
+    //     offset.y: Config.bar.shadowOffsetY
+    // }
 
     Rectangle {
         width: parent.width
         height: parent.height
         radius: Config.bar.radius
         color: Colors.background
-        anchors.top: parent
+        /* anchors.top: parent */
+        border.width: Config.general.borderWidth
+        border.color: Colors.background1
 
-        Column {
-            id: column
-            anchors.centerIn: parent
-            Text {
-                id: weekDay
-                horizontalAlignment: Text.AlignHCenter
-                color: Colors.foreground
-
-                text: {
-                    Qt.formatDateTime(clock.date, "ddd");
+        RowLayout {
+            /* anchors.centerIn: parent */
+            /* spacing: 8 */
+            Rectangle {
+                Layout.preferredWidth: Config.general.titleWidth
+                Layout.fillHeight: true
+                // width: Config.bar.TitleWidth
+                color: Colors.background1
+                /* anchors.left: parent */
+                Text {
+                    text: "Time"
+                    anchors.centerIn: parent
+                    transformOrigin: Item.Center
+                    rotation: -90
+                    // rotation : 270
+                    width: parent.width
                 }
             }
 
-            Text {
-                id: hour
-                horizontalAlignment: Text.AlignHCenter
-                width: parent.width
-                color: Colors.foreground
+            ColumnLayout {
+                id: column
+                // Layout.preferredWidth: 50
+                // Layout.fillHeight: true
+                /* anchors.centerIn: parent */
+                /* anchors.right: parent */
+                Text {
+                    id: weekDay
+                    horizontalAlignment: Text.AlignHCenter
+                    width: parent.width
+                    color: Colors.foreground
 
-                text: {
-                    Qt.formatDateTime(clock.date, "hh");
+                    text: {
+                        Qt.formatDateTime(clock.date, "ddd");
+                    }
                 }
-            }
 
-            Text {
-                id: minute
-                horizontalAlignment: Text.AlignHCenter
-                width: parent.width
-                color: Colors.foreground
+                Text {
+                    id: hour
+                    horizontalAlignment: Text.AlignHCenter
+                    width: parent.width
+                    color: Colors.foreground
 
-                text: {
-                    Qt.formatDateTime(clock.date, "mm");
+                    text: {
+                        Qt.formatDateTime(clock.date, "hh");
+                    }
                 }
-            }
 
-            SystemClock {
-                id: clock
-                precision: SystemClock.Minutes
+                Text {
+                    id: minute
+                    horizontalAlignment: Text.AlignHCenter
+                    width: parent.width
+                    color: Colors.foreground
+
+                    text: {
+                        Qt.formatDateTime(clock.date, "mm");
+                    }
+                }
+
+                SystemClock {
+                    id: clock
+                    precision: SystemClock.Minutes
+                }
             }
         }
+
     }
 }

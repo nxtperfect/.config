@@ -4,6 +4,7 @@ import QtQuick
 import Quickshell
 
 Singleton {
+    property QtObject general
     property QtObject bar
     property QtObject dock
     property QtObject notifications
@@ -12,6 +13,11 @@ Singleton {
     property QtObject shadow
     property QtObject eyeprotection
 
+    general: QtObject {
+        property int borderWidth: 2
+        property int titleWidth: 10
+    }
+
     bar: QtObject {
         property int sectionHeight: 26
         property int barWidth: 32
@@ -19,11 +25,12 @@ Singleton {
         property int componentSpacing: 15
         property int componentPadding: 20
         property int workspaceSpacing: 10
-        property int sideMargin: 10
+        property int sideMargin: 5
         property int margin: 32
-        property real borderWidth: 0
         property int offsetTime: 1000 * 60 * 60 * 0
-        property int radius: 32
+        property int radius: 0 // 32
+        property int shadowOffsetX: 5
+        property int shadowOffsetY: 5
     }
 
     dock: QtObject {
@@ -35,11 +42,12 @@ Singleton {
     notifications: QtObject {
         property int margin: 16
         property int dismissMiliseconds: 5000
-        property int width: 600
+        property int width: 300
+        property int topOffset: 24
     }
 
     top: QtObject {
-        property int height: 0
+        property int height: 20
     }
 
     notifs: QtObject {
@@ -48,8 +56,8 @@ Singleton {
 
     shadow: QtObject {
         property int width: 10
-        property int x: 10
-        property int y: 10
+        property int x: 9
+        property int y: 9
     }
 
     eyeprotection: QtObject {

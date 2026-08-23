@@ -5,16 +5,16 @@ import Quickshell.Services.Notifications
 import QtQuick
 import "root:/bar"
 import "root:/dock"
+import "root:/components/notifications"
 import "root:/components/microphone_mute_indicator"
 import "root:/components/eye_protection"
-import "root:/components/notifications"
+import "root:/components/music_controller"
 import "root:/config"
 
-Item {
-    implicitWidth: 1920
-    implicitHeight: 1080
+Scope {
     Bar {}
     Notifications {}
     MicrophoneMuteIndicator {}
     EyeProtection {}
+    // MusicController {}
 }

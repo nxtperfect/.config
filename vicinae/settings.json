@@ -1,0 +1,86 @@
+// This configuration is merged with the default vicinae configuration file, which you can obtain by running the `vicinae config default` command.
+// Every item defined in this file takes precedence over the values defined in the default config or any other imported file.
+//
+// You can make manual edits to this file, however you should keep in mind that this file may be written to by vicinae when a configuration change is made through the GUI.
+// When that happens, any custom comments or formatting will be lost.
+//
+// If you want to maintain a configuration file with your own comments and formatting, you should create a separate file and add it to the 'imports' array.
+//
+// Learn more about configuration at https://docs.vicinae.com/config
+
+{
+   "$schema": "https://vicinae.com/schemas/config.json",
+   "font": {
+      "normal": {
+         "family": "GohuFont 14 Nerd Font",
+         "size": 11
+      }
+   },
+   "theme": {
+      "dark": {
+         "name": "libadwaita-light",
+         "icon_theme": "NineIcons"
+      }
+   },
+   "telemetry": {
+      "system_info": false
+   },
+   "launcher_window": {
+      "rounding": 0
+   },
+   "providers": {
+      "power": {
+         "entrypoints": {
+            "hibernate": {
+               "enabled": false,
+               "preferences": {
+                  "confirm": true,
+                  "customProgram": "loginctl hibernate"
+               }
+            },
+            "lock": {
+               "enabled": false,
+               "preferences": {
+                  "confirm": false
+               }
+            },
+            "logout": {
+               "enabled": false,
+               "preferences": {
+                  "confirm": true,
+                  "customProgram": ""
+               }
+            },
+            "power-off": {
+               "preferences": {
+                  "confirm": true,
+                  "customProgram": "loginctl poweroff"
+               }
+            },
+            "reboot": {
+               "preferences": {
+                  "confirm": true,
+                  "customProgram": "loginctl reboot"
+               }
+            },
+            "sleep": {
+               "enabled": false,
+               "preferences": {
+                  "confirm": true,
+                  "customProgram": "loginctl hybrid-sleep"
+               }
+            },
+            "soft-reboot": {
+               "enabled": false
+            },
+            "suspend": {
+               "enabled": true,
+               "preferences": {
+                  "confirm": true,
+                  "customProgram": "loginctl suspend"
+               }
+            }
+         }
+      }
+   }
+}

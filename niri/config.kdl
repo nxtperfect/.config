@@ -20,6 +20,8 @@ input {
             // from org.freedesktop.locale1. You can control these using
             // localectl set-x11-keymap.
         }
+        repeat-delay 200
+        repeat-rate 35
 
         // Enable numlock on startup, omitting this setting disables it.
         numlock
@@ -117,7 +119,7 @@ layout {
     // - "never", default behavior, focusing an off-screen column will keep at the left
     //   or right edge of the screen.
     // - "always", the focused column will always be centered.
-    // - "on-overflow", focusing a column will center it if it doesn't fit
+    // - "on-overflow", focusing a column will center it if it doesn\'t fit
     //   together with the previously focused column.
     center-focused-column "never"
 
@@ -146,7 +148,7 @@ layout {
     // behind windows. That is, they will show up through semitransparent windows.
     // This is because windows using client-side decorations can have an arbitrary shape.
     //
-    // If you don't like that, you should uncomment `prefer-no-csd` below.
+    // If you don\'t like that, you should uncomment `prefer-no-csd` below.
     // Niri will draw focus ring and border *around* windows that agree to omit their
     // client-side decorations.
     //
@@ -191,7 +193,7 @@ layout {
         // inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
     }
 
-    // You can also add a border. It's similar to the focus ring, but always visible.
+    // You can also add a border. It\'s similar to the focus ring, but always visible.
     border {
         // The settings are the same as for the focus ring.
         // If you enable the border, you probably want to disable the focus ring.
@@ -215,7 +217,7 @@ layout {
     // You can enable drop shadows for windows.
     shadow {
         // Uncomment the next line to enable shadows.
-        on
+        off
 
         // By default, the shadow draws only around its window, and not behind it.
         // Uncomment this setting to make the shadow draw behind its window.
@@ -263,11 +265,16 @@ layout {
 }
 
 cursor {
-    xcursor-theme "Bibata-Original-Ice"
+    // xcursor-theme "Bibata-Original-Ice"
+    xcursor-theme "retrosmart-xcursor-black"
     xcursor-size 28
 
     hide-when-typing
     hide-after-inactive-ms 1000
+}
+
+recent-windows {
+    off
 }
 
 // Add lines like this to spawn processes at startup.
@@ -278,23 +285,34 @@ cursor {
 // This line starts waybar, a commonly used bar for Wayland compositors.
 // spawn-at-startup "waybar"
 spawn-at-startup "/usr/libexec/polkit-mate-authentication-agent-1"
+spawn-at-startup "mullvad-vpn"
+spawn-sh-at-startup "kmonad ~/.config/kmonad/config.kbd"
+spawn-sh-at-startup "mpd ~/.config/mpd/mpd.conf"
+spawn-sh-at-startup "mpdscribble --conf ~/.mpdscribble/mpdscribble.conf"
+spawn-sh-at-startup "foot --server"
+spawn-sh-at-startup "~/Documents/Programming/emacs.sh"
+// spawn-sh-at-startup "doom emacs --daemon"
+spawn-sh-at-startup "vicinae server"
+spawn-sh-at-startup "qs"
+spawn-sh-at-startup "gentoo-pipewire-launcher"
 spawn-at-startup "awww-daemon"
 spawn-at-startup "librewolf"
-spawn-at-startup "vesktop-bin"
-spawn-at-startup "foot"
+spawn-sh-at-startup "mullvad-exclude vesktop-bin"
+spawn-at-startup "footclient"
+spawn-at-startup "footclient"
+spawn-at-startup "footclient"
 spawn-at-startup "signal-desktop"
 spawn-at-startup "keepassxc"
-spawn-at-startup "thunderbird"
-spawn-sh-at-startup "gentoo-pipewire-launcher"
 spawn-sh-at-startup "flatpak run app.grayjay.Grayjay"
 spawn-sh-at-startup "gammastep -c ~/.config/gammastep/config.ini"
 spawn-sh-at-startup "flatpak run com.github.wwmm.easyeffects"
 spawn-at-startup "nicotine"
+spawn-at-startup "transmission-qt"
 spawn-sh-at-startup "flatpak run com.valvesoftware.Steam"
+spawn-at-startup "lutris"
 
 spawn-at-startup "xwayland-satellite"
 environment {
-	DISPLAY ":0"
     NIXOS_OZONE_WL "1"
     XDG_CURRENT_DESKTOP "niri"
     XDG_SESSION_TYPE "wayland"
@@ -333,6 +351,52 @@ animations {
 
     // Slow down all animations by this factor. Values below 1 speed them up instead.
     // slowdown 3.0
+    window-open {
+        duration-ms 250
+        curve "ease-out-cubic"
+
+        custom-shader r"
+	vec4 open_color(vec3 coords_geo, vec3 size_geo) {
+                float p = niri_clamped_progress;
+                vec2 uv = coords_geo.xy;
+
+                float pixel_size = mix(0.06 + niri_random_seed * 0.04, 0.0005, p * p);
+                vec2 pixelated_uv = floor(uv / pixel_size) * pixel_size + pixel_size * 0.5;
+
+                vec3 tex_coords = niri_geo_to_tex * vec3(pixelated_uv, 1.0);
+                vec4 color = texture2D(niri_tex, tex_coords.st);
+
+                vec2 center = uv - 0.5;
+                float dist = length(center);
+                float reveal = smoothstep(0.0, 0.5, p) * smoothstep(dist * 0.8, dist * 0.8 - 0.3, (1.0 - p));
+
+                float alpha = smoothstep(0.0, 0.3, p);
+                return color * alpha;
+            }
+        "
+    }
+
+    window-close {
+	    duration-ms 250
+	    curve "ease-out-cubic"
+
+	    custom-shader r"
+	    vec4 close_color(vec3 coords_geo, vec3 size_geo) {
+                float p = niri_clamped_progress;
+                vec2 uv = coords_geo.xy;
+
+                float pixel_size = mix(0.0005, 0.10 + niri_random_seed * 0.04, p * p);
+                vec2 pixelated_uv = floor(uv / pixel_size) * pixel_size + pixel_size * 0.5;
+
+                vec3 tex_coords = niri_geo_to_tex * vec3(pixelated_uv, 1.0);
+                vec4 color = texture2D(niri_tex, tex_coords.st);
+
+                float alpha = smoothstep(1.0, 0.5, p);
+
+                return color * alpha;
+            }
+	"
+    }
 }
 
 gestures {
@@ -345,16 +409,6 @@ gestures {
 // Find more information on the wiki:
 // https://niri-wm.github.io/niri/Configuration:-Window-Rules
 
-// Work around WezTerm's initial configure bug
-// by setting an empty default-column-width.
-window-rule {
-    // This regular expression is intentionally made as specific as possible,
-    // since this is the default config, and we want no false positives.
-    // You can get away with just app-id="wezterm" if you want.
-    match app-id=r#"^org\.wezfurlong\.wezterm$"#
-    default-column-width {}
-}
-
 // Open the Firefox picture-in-picture player as floating by default.
 window-rule {
     // This app-id regular expression will work for both:
@@ -366,14 +420,16 @@ window-rule {
 
 // Example: block out two password managers from screen capture.
 // (This example rule is commented out with a "/-" in front.)
-/-window-rule {
+window-rule {
     match app-id=r#"^org\.keepassxc\.KeePassXC$"#
     match app-id=r#"^org\.gnome\.World\.Secrets$"#
     match app-id=r#"^signal$"#
     match app-id=r#"^thunderbird$"#
     match app-id=r#"^vesktop$"#
     match app-id=r#"^ferdium$"#
-    match app-title=r#"Private Browsing$"#
+    match app-id=r#"^org\.qbittorrent\.qBittorrent$"#
+    match app-id=r#"^org\.nicotine_plus\.Nicotine$"#
+    match title=r#"Private Browsing$"#
 
     // block-out-from "screen-capture"
 
@@ -404,6 +460,44 @@ window-rule {
     }
 }
 
+workspace "web"
+window-rule {
+	match at-startup=true app-id=r#"librewolf"#
+	match at-startup=true app-id=r#"qbittorrent"#
+	match at-startup=true app-id=r#"nicotine"#
+	match at-startup=true app-id=r#"^org\.keepassxc\.KeePassXC$"#
+	match at-startup=true app-id=r#"cef"#
+	open-on-workspace "web"
+}
+
+workspace "msg"
+window-rule {
+	match at-startup=true app-id=r#"vesktop"#
+	match at-startup=true app-id=r#"signal"#
+	match at-startup=true app-id=r#"mullvad-vpn"#
+	open-on-workspace "msg"
+}
+
+workspace "dev"
+window-rule {
+	match at-startup=true app-id=r#"footclient"#
+	open-on-workspace "dev"
+}
+
+workspace "gam"
+window-rule {
+	match at-startup=true app-id=r#"steam"#
+	match at-startup=true app-id=r#"lutris"#
+	open-on-workspace "gam"
+}
+
+workspace "mus"
+window-rule {
+	match at-startup=true app-id=r#"easyeffects"#
+	match at-startup=true app-id=r#"thunderbird"#
+	open-on-workspace "mus"
+}
+
 binds {
     // Keys consist of modifiers separated by + signs, followed by an XKB key name
     // in the end. To find an XKB name for a particular key, you may use a program
@@ -417,19 +511,20 @@ binds {
 
     // Mod-Shift-/, which is usually the same as Mod-?,
     // shows a list of important hotkeys.
-    Mod+Shift+Slash { show-hotkey-overlay; }
+    // Mod+Shift+Slash { show-hotkey-overlay; }
 
     // Suggested binds for running programs: terminal, app launcher, screen locker.
-    Mod+Return hotkey-overlay-title="Open a Terminal: foot" { spawn "foot"; }
-    Mod+Space hotkey-overlay-title="Open file manager: thunar" { spawn "thunar"; }
-    Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
+    Mod+Return hotkey-overlay-title="Open a Terminal: foot" { spawn "footclient"; }
+    Mod+Space hotkey-overlay-title="Open file manager: yazi" { spawn "footclient" "yazi"; }
+    // Mod+D hotkey-overlay-title="Run an Application: fuzzel" { spawn "fuzzel"; }
+    Mod+D hotkey-overlay-title="Run an Application: vicinae" { spawn "vicinae" "toggle"; }
     Super+Alt+L hotkey-overlay-title="Lock the Screen: swaylock" { spawn "swaylock"; }
     Mod+M hotkey-overlay-title="Mute microphone" { spawn "pamixer" "--default-source" "-t"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
-    // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
+    // Note: the entire command goes as a single argument. It\'s passed verbatim to `sh -c`.
     // For example, this is a standard bind to toggle the screen reader (orca).
-    Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; }
+    // Super+Alt+S allow-when-locked=true hotkey-overlay-title=null { spawn-sh "pkill orca || exec orca"; }
 
     // Example volume keys mappings for PipeWire & WirePlumber.
     // The allow-when-locked=true property makes them work even when the session is locked.
@@ -539,7 +634,7 @@ binds {
     //
     // To avoid scrolling through workspaces really fast, you can use
     // the cooldown-ms property. The bind will be rate-limited to this value.
-    // You can set a cooldown on any bind, but it's most useful for the wheel.
+    // You can set a cooldown on any bind, but it\'s most useful for the wheel.
     Mod+WheelScrollDown      cooldown-ms=150 { focus-workspace-down; }
     Mod+WheelScrollUp        cooldown-ms=150 { focus-workspace-up; }
     Mod+Ctrl+WheelScrollDown cooldown-ms=150 { move-column-to-workspace-down; }
@@ -560,7 +655,7 @@ binds {
     // Similarly, you can bind touchpad scroll "ticks".
     // Touchpad scrolling is continuous, so for these binds it is split into
     // discrete intervals.
-    // These binds are also affected by touchpad's natural-scroll, so these
+    // These binds are also affected by touchpad\'s natural-scroll, so these
     // example binds are "inverted", since we have natural-scroll enabled for
     // touchpads by default.
     // Mod+TouchpadScrollDown { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.02+"; }
@@ -574,20 +669,20 @@ binds {
     //
     // For example, with 2 workspaces + 1 empty, indices 3, 4, 5 and so on
     // will all refer to the 3rd workspace.
-    Mod+1 { focus-workspace 1; }
-    Mod+2 { focus-workspace 2; }
-    Mod+3 { focus-workspace 3; }
-    Mod+4 { focus-workspace 4; }
-    Mod+5 { focus-workspace 5; }
+    Mod+1 { focus-workspace "web"; }
+    Mod+2 { focus-workspace "msg"; }
+    Mod+3 { focus-workspace "dev"; }
+    Mod+4 { focus-workspace "gam"; }
+    Mod+5 { focus-workspace "mus"; }
     Mod+6 { focus-workspace 6; }
     Mod+7 { focus-workspace 7; }
     Mod+8 { focus-workspace 8; }
     Mod+9 { focus-workspace 9; }
-    Mod+Shift+1 { move-column-to-workspace 1; }
-    Mod+Shift+2 { move-column-to-workspace 2; }
-    Mod+Shift+3 { move-column-to-workspace 3; }
-    Mod+Shift+4 { move-column-to-workspace 4; }
-    Mod+Shift+5 { move-column-to-workspace 5; }
+    Mod+Shift+1 { move-column-to-workspace "web"; }
+    Mod+Shift+2 { move-column-to-workspace "msg"; }
+    Mod+Shift+3 { move-column-to-workspace "dev"; }
+    Mod+Shift+4 { move-column-to-workspace "gam"; }
+    Mod+Shift+5 { move-column-to-workspace "mus"; }
     Mod+Shift+6 { move-column-to-workspace 6; }
     Mod+Shift+7 { move-column-to-workspace 7; }
     Mod+Shift+8 { move-column-to-workspace 8; }
@@ -670,8 +765,8 @@ binds {
     // Applications such as remote-desktop clients and software KVM switches may
     // request that niri stops processing the keyboard shortcuts defined here
     // so they may, for example, forward the key presses as-is to a remote machine.
-    // It's a good idea to bind an escape hatch to toggle the inhibitor,
-    // so a buggy application can't hold your session hostage.
+    // It\'s a good idea to bind an escape hatch to toggle the inhibitor,
+    // so a buggy application can\'t hold your session hostage.
     //
     // The allow-inhibiting=false property can be applied to other binds as well,
     // which ensures niri always processes them, even when an inhibitor is active.

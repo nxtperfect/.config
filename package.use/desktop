@@ -1,0 +1,8 @@
+x11-libs/cairo X svg
+media-libs/vulkan-loader X wayland
+app-text/ghostscript-gpl cups
+media-video/pipewire sound-server
+media-libs/harfbuzz icu
+media-libs/gst-plugins-base egl opengl
+app-text/poppler cairo
+x11-libs/gdk-pixbuf jpeg

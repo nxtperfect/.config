@@ -3,7 +3,6 @@ import Quickshell.Io
 import QtQuick
 import QtQuick.Effects
 import "root:/config"
-import "root:/components/dashboard"
 
 Item {
     height: Config.bar.barWidth
@@ -76,8 +75,5 @@ Item {
                 }
             }
         }
-    }
-    Dashboard {
-        isOpen: notifBubble.isOpenNotifications
     }
 }

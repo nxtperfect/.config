@@ -3,7 +3,6 @@ import Quickshell.Io
 import Quickshell.Widgets
 import QtQuick
 import "root:/bar"
-import "root:/components/dashboard"
 import "root:/config"
 
 Item {
@@ -17,7 +16,7 @@ Item {
             left: true
         }
 
-        implicitWidth: Config.bar.barWidth + (Config.bar.sideMargin * 2)
+        implicitWidth: Config.bar.barWidth + (Config.bar.sideMargin * 2) + Config.general.titleWidth
 
         WrapperItem {
             margin: Config.bar.sideMargin
@@ -33,8 +32,6 @@ Item {
                 spacing: Config.bar.componentSpacing
 
                 Top {}
-
-                Middle {}
 
                 Bottom {}
             }

@@ -1,0 +1,3 @@
+dev-qt/qtbase opengl vulkan
+dev-qt/qtdeclarative opengl vulkan
+dev-qt/qttools opengl vulkan

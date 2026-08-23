@@ -32,3 +32,11 @@ Singleton {
   property string blue: "#006E93"
   property string purple: "#5E2180"
 }
+
+// Green
+// Singleton {
+//   property string background: "#80ff00"
+//   property string background1: "#80fa83"
+//   property string foreground: "#0e1e01"
+//   property string foreground1: "#b5ff6b"
+// }
