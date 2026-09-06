@@ -1,0 +1,27 @@
+{
+  "version": 7,
+  "metadata": {
+    "instance_id": "65258e07-1f9f-4b59-a270-ff29cca4f05a",
+    "saved_at": "2026-09-06T17:41:57.861679014Z",
+    "writer_version": "0.7.2",
+    "writer_commit": "unknown"
+  },
+  "data": {
+    "archived_cards": [],
+    "boards": [],
+    "cards": [],
+    "columns": [],
+    "graph": {
+      "blocks": {
+        "edges": []
+      },
+      "relates": {
+        "edges": []
+      },
+      "spawns": {
+        "edges": []
+      }
+    },
+    "sprints": []
+  }
+}
