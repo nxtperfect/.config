@@ -1,5 +1,0 @@
-# app-editors/emacs jit harfbuzz tree-sitter dynamic-loading
-# required by app-editors/emacs-30.2-r3::gentoo[jit]
-# required by @selected
-# required by @world (argument)
-# >=sys-devel/gcc-15.3.0 jit

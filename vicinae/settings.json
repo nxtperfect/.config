@@ -12,7 +12,7 @@
    "$schema": "https://vicinae.com/schemas/config.json",
    "font": {
       "normal": {
-         "family": "GohuFont 14 Nerd Font",
+         "family": "Ac437 NEC MultiSpeed",
          "size": 11
       }
    },
